@@ -361,3 +361,7 @@ ul, ol { list-style: none; }
 /* 重置文本格式元素 */
 a { text-decoration: none; }
 a:hover { text-decoration: underline; }
+
+button {
+  border-width: 0;
+}

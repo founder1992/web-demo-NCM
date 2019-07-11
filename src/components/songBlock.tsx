@@ -9,22 +9,35 @@ export enum SongBlockType {
     C = "common",
 }
 
-export interface SongBlockProps {
+export interface ISongBlockProps {
     type: SongBlockType,
     name?: string,
     picUrl: string,
     author?: string,
     description?: string,
-    lName?: number
+    playCount?: number
 }
 
-export default function SongBlock(props: { data: SongBlockProps, key: string }) {
-    const { type, name, picUrl, author, description, lName } = props.data;
+export default function SongBlock(props: { data: ISongBlockProps, key: string, index?: number }) {
+    const { data , key , index } = props;
+    const { type, name, picUrl, author, description, playCount = 0 } = data;
     return (
-        <div className="block-container__song--small">
-            <img className="block-container__song--small-img" src={picUrl} />
-            <div>{name}</div>
-            <div>{author}</div>
-        </div>
+      <React.Fragment key={key}>
+          {type === SongBlockType.S && (
+              <div className="component-block__song--small">
+                  <img className="component-block__song--small-img" src={picUrl} />
+                  <div>{name}</div>
+                  <div>{author}</div>
+              </div>
+          )}
+          {type === SongBlockType.C && (
+              <div className="component-block__song--common">
+                  <img className="component-block__song--common-img" src={picUrl} />
+                  <p>{name}</p>
+                  <span>{(playCount/10000).toFixed(1) + '万'}</span>
+                  {index === 0 && (<i className="icon--king" />)}
+              </div>
+          )}
+      </React.Fragment>
     )
 }

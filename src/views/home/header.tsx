@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import useStateRequest from '@hooks/useStateRequest'
-import SongBlock, {SongBlockType, SongBlockProps} from '@components/songBlock'
+import SongBlock, {SongBlockType, ISongBlockProps} from '@components/songBlock'
 
 /*
     description:  首页引导下载头部
@@ -40,7 +40,7 @@ export default function Header() {
                         {title}
                     </div>
                     <div className="header-content_songs--small">
-                        {standardSongs.map((v: SongBlockProps) => {
+                        {standardSongs.map((v: ISongBlockProps) => {
                             return <SongBlock key={v.type + v.name + v.author} data={v} />
                         })}
                     </div>
