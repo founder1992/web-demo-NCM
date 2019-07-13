@@ -1,5 +1,5 @@
 {
-  "name": "react-hook-demo",
+  "name": "web-demo-NCM",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,19 +9,19 @@
     "dev": "webpack-dev-server --config build/webpack.dev.js --mode development --open",
     "test-build": "webpack --config build/webpack.prod.js --mode production --env test",
     "prod-build": "webpack --config build/webpack.prod.js --mode production --env prod",
-    "dll": "webpack --config build/webpack.config.dll.js"
+    "dll": "webpack --config build/webpack.dll.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/founder1992/react-hook-demo.git"
+    "url": "git+https://github.com/founder1992/web-demo-NCM.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/founder1992/react-hook-demo/issues"
+    "url": "https://github.com/founder1992/web-demo-NCM/issues"
   },
-  "homepage": "https://github.com/founder1992/react-hook-demo#readme",
+  "homepage": "https://github.com/founder1992/web-demo-NCM#readme",
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",

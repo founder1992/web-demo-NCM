@@ -20,7 +20,7 @@ export default function Body() {
     const doRequest_newSongs = useStoreRequest().doRequest;
     const dispatch = useDispatch();
 
-    const {hotListLastUpdated, hotLists, newListLastUpdated, newLists} = useMappedState(
+    const { hotListLastUpdated, hotLists, newListLastUpdated, newLists } = useMappedState(
         useCallback(
             (state: any) => ({
                 hotListLastUpdated: state.songList.lastUpdated_hotLists,
@@ -32,11 +32,11 @@ export default function Body() {
         ),
     );
 
-    const click = (v: string) => {
+    const click = (v: string): void => {
       setCurrent(v)
     };
 
-    const getHotSongLists = () => {
+    const getHotSongLists = (): void => {
         if (hotLists.length) return;
         if (hotListLastUpdated && Date.now() - hotListLastUpdated < config.searchLimit * 60 * 1000) return;
         doRequest(
@@ -50,7 +50,7 @@ export default function Body() {
         )
     };
 
-    const getNewSongs = () => {
+    const getNewSongs = (): void => {
         if (newLists.length) return;
         if (newListLastUpdated && Date.now() - newListLastUpdated < config.searchLimit * 60 * 1000) return;
         doRequest_newSongs(
@@ -64,14 +64,15 @@ export default function Body() {
         )
     };
     
-    function getContent(type: string) {
+    function getContent(type: string): void {
         type === titles[0] && getHotSongLists();
         type === titles[0] && getNewSongs();
     }
 
-    useEffect(() => {
+    useEffect((): void => {
         getContent(current);
     }, [current]);
+
     return (
         <section>
             <SwitchBar key="switch-bar" titles={titles} current={current} click={click} />

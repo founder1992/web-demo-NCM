@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import useStateRequest from '@hooks/useStateRequest'
-import SongBlock, {SongBlockType, ISongBlockProps} from '@components/songBlock'
+import SongBlock, { SongBlockType, ISongBlockProps } from '@components/songBlock'
 
 /*
     description:  首页引导下载头部
@@ -12,13 +12,13 @@ export default function Header() {
     const { playlist } = data;
     const title = playlist && playlist.name;
     const songs = playlist && playlist.tracks && playlist.tracks.slice(0, 4) || [];
-    const standardSongs = songs.map((v: any) => {return {
-        type: "small", name: v.name,
+    const standardSongs = songs.map((v: any): ISongBlockProps => {return {
+        type: SongBlockType.S, name: v.name,
         picUrl: v.al.picUrl,
         author: v.ar[0].name
     }});
 
-    const getSongs = (type: number) => {
+    const getSongs = (type: number): void => {
         doFetch({
             method: 'get',
             url: `top/list?idx=${type}`
