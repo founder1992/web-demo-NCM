@@ -9,19 +9,19 @@
     border-radius: 4px;
   }
   div:nth-child(2), div:nth-child(3) {
-    font-size: 5px;
+    font-size: 12px;
     font-weight: 200;
     overflow: hidden;
-    transform: translateX(-5px) scale(0.9);
     white-space: nowrap;
     text-overflow: ellipsis;
-    width: 91.1px;
+    width: 82px;
     text-align: left;
-    margin: 5px 0 0;
   }
 
   div:nth-child(2) {
     color: #fff;
+    margin: 3px 0 0;
+    line-height: 18px;
   }
 
   div:nth-child(3){
@@ -84,8 +84,27 @@ $block__songs--common-width: 122.875px;
   height: 40px;
   line-height: 40px;
   font-size: 15px;
-  position: relative;
-  z-index: 2;
+  z-index: 6;
+}
+
+.component-bar__switch-container--toggled {
+  position: fixed;
+  background-color: white;
+  top: 343px;
+  animation: component-bar__switch-container-animation--fadeIn 200ms linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes component-bar__switch-container-animation--fadeIn {
+  0% {
+    top: 343px;
+  }
+  50% {
+    top: 172px;
+  }
+  100% {
+    top: 84px;
+  }
 }
 
 .component-bar__switch-item {
@@ -137,10 +156,31 @@ $block__songs--common-width: 122.875px;
   }
 }
 
-.component-bar__song--sample-container {
-  margin-left: 10px;
+.component-bar__song-container {
   display: flex;
+}
 
+.component-bar__song__rank {
+  width: 40px;
+  height: 55px;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  display: flex;
+  color: #999;
+}
+
+.component-bar__song__rank--red {
+  color: $primary
+}
+
+.component-bar__song--sample-container {
+  display: flex;
+  width: 100%;
+}
+
+.component-bar__song-container--margin {
+  margin-left: 10px;
 }
 
 @mixin component-bar__song--sample-text--style() {
@@ -153,6 +193,10 @@ $block__songs--common-width: 122.875px;
 .component-bar__song--sample--info {
   width: 323px;
   padding: 6px 0;
+}
+
+.component-bar__song--sample--info--narrow {
+  width: 293px;
 }
 
 .component-bar__song--sample--name {
@@ -184,4 +228,18 @@ $block__songs--common-width: 122.875px;
     background-size: 166px 97px;
     background-position: -24px 0;
   }
+}
+
+.component-logo--svg--black {
+  display: block;
+  margin: 0 auto;
+  width: 230px;
+  height: 44px;
+}
+
+.component-logo--svg--white-toggled {
+  display: block;
+  margin: 0 auto;
+  width: 230px;
+  height: 44px;
 }

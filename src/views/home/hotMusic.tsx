@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Label from '@components/label'
 import SongBlock, { SongBlockType, ISongBlockProps } from '@components/songBlock'
 import SongBar, { ISongBarProps } from '@components/songBar'
+import Logo from '@components/logo'
 
 /*
     description:  推荐音乐和最新音乐
@@ -38,11 +39,8 @@ export default function HotMusic(props: {songList: IHotMusicSongLists[], newSong
         }
     });
 
-    useEffect(() => {
-    }, []);
-
     return (
-        <div className="body-content--hot-lists ">
+        <div className="body-content--hot-lists">
             <Label title="推荐歌单" />
             <div className="body-content_songs--common">
                 {standardLists.map((v: ISongBlockProps, index: number) => {
@@ -55,8 +53,11 @@ export default function HotMusic(props: {songList: IHotMusicSongLists[], newSong
                     return <SongBar key={v.album + v.name} data={v} index={index} />
                 })}
             </React.Fragment>
-            <footer>
-
+            <footer className="footer--hot_songs">
+                <Logo />
+                <div className="footer--hot_songs--open--app">
+                    打开APP，发现更多好音乐 >
+                </div>
             </footer>
         </div>
     )

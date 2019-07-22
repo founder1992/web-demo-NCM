@@ -77,6 +77,30 @@ span, li, ul, ol, th, td {
   background-size: 166px 97px;
 }
 
+@keyframes animation--fadeOut {
+  0% {
+    opacity: 1
+  }
+  50% {
+    opacity: 0.5
+  }
+  100% {
+    opacity: 0
+  }
+}
+
+@keyframes animation--fadeIn {
+  0% {
+    opacity: 0
+  }
+  50% {
+    opacity: 0.5
+  }
+  100% {
+    opacity: 1
+  }
+}
+
 @import "reset";
 @import "home";
 @import "component";

@@ -19,10 +19,10 @@ export interface ISongBlockProps {
 }
 
 export default function SongBlock(props: { data: ISongBlockProps, key: string, index?: number }) {
-    const { data , key , index } = props;
+    const { data, index } = props;
     const { type, name, picUrl, author, description, playCount = 0 } = data;
     return (
-      <React.Fragment key={key}>
+      <React.Fragment>
           {type === SongBlockType.S && (
               <div className="component-block__song--small">
                   <img className="component-block__song--small-img" src={picUrl} />

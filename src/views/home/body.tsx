@@ -13,9 +13,10 @@ import config from '@/config'
     description:  首页内容部分
  */
 
-export default function Body() {
+export default function Body(props: { toggled: boolean }) {
     const [titles, setTitles] = useState(["推荐音乐", "热歌榜", "搜索"]);
     const [current, setCurrent] = useState("推荐音乐");
+    const { toggled } = props;
     const { doRequest } = useStoreRequest();
     const doRequest_newSongs = useStoreRequest().doRequest;
     const dispatch = useDispatch();
@@ -33,12 +34,12 @@ export default function Body() {
     );
 
     const click = (v: string): void => {
-      setCurrent(v)
+      setCurrent(v);
+      window.scrollTo(0,2)
     };
 
     const getHotSongLists = (): void => {
-        if (hotLists.length) return;
-        if (hotListLastUpdated && Date.now() - hotListLastUpdated < config.searchLimit * 60 * 1000) return;
+        if (hotLists.length && hotListLastUpdated && Date.now() - hotListLastUpdated < config.searchLimit * 60 * 1000) return;
         doRequest(
             {
                 method: 'get',
@@ -51,8 +52,7 @@ export default function Body() {
     };
 
     const getNewSongs = (): void => {
-        if (newLists.length) return;
-        if (newListLastUpdated && Date.now() - newListLastUpdated < config.searchLimit * 60 * 1000) return;
+        if (newLists.length && newListLastUpdated && Date.now() - newListLastUpdated < config.searchLimit * 60 * 1000) return;
         doRequest_newSongs(
             {
                 method: 'get',
@@ -75,7 +75,7 @@ export default function Body() {
 
     return (
         <section>
-            <SwitchBar key="switch-bar" titles={titles} current={current} click={click} />
+            <SwitchBar key="switch-bar" titles={titles} current={current} click={click} toggled={toggled} />
             {current === "推荐音乐" && <HotMusic songList={hotLists} newSongs={newLists}/>}
             {current === "热歌榜" && <Board />}
             {current === "搜索" && <Search />}

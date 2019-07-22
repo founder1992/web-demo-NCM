@@ -1,17 +1,36 @@
 import React from 'react';
-import { useEffect } from 'react';
-import useStateRequest from '@hooks/useStateRequest'
+import { useEffect, useState, useCallback } from 'react';
+import useStoreRequest from '@hooks/useStoreRequest'
+import {useMappedState, useDispatch} from '@store';
 import SongBlock, { SongBlockType, ISongBlockProps } from '@components/songBlock'
+import config from "@/config";
 
 /*
     description:  首页引导下载头部
  */
 
-export default function Header() {
-    const { data, doFetch } : { data: any, isLoading: boolean, isError: boolean, doFetch: any} = useStateRequest();
-    const { playlist } = data;
-    const title = playlist && playlist.name;
-    const songs = playlist && playlist.tracks && playlist.tracks.slice(0, 4) || [];
+const Header = React.memo(function (props: {toggled: boolean; init: boolean}) {
+    const idx = 3;
+    const { toggled, init } = props;
+    const headerClass = "header" + (toggled ? " header--toggled" : (!init && " header--toggled--back" || ""));
+
+    const { doRequest } = useStoreRequest();
+    const dispatch = useDispatch();
+
+    const { lastUpdated_boardSongs, boardSongs } = useMappedState(
+        useCallback(
+            (state: any) => ({
+                lastUpdated_boardSongs: state.songList.lastUpdated_boardSongs,
+                boardSongs: state.songList.boardSongs
+            }),
+            [idx],
+        ),
+    );
+
+    const board  = boardSongs[idx];
+    const title = board && board.playlist && board.playlist.name;
+    const songs = board && board.playlist.tracks && board.playlist.tracks.slice(0, 4) || [];
+
     const standardSongs = songs.map((v: any): ISongBlockProps => {return {
         type: SongBlockType.S, name: v.name,
         picUrl: v.al.picUrl,
@@ -19,34 +38,57 @@ export default function Header() {
     }});
 
     const getSongs = (type: number): void => {
-        doFetch({
-            method: 'get',
-            url: `top/list?idx=${type}`
-        });
+        if (standardSongs.length) return;
+        if (standardSongs.length && lastUpdated_boardSongs[idx] && Date.now() - lastUpdated_boardSongs[idx] < config.searchLimit * 60 * 1000) return;
+        doRequest(
+            {
+                method: 'get',
+                url: `top/list?idx=${type}`
+            },
+            {
+                callback: (data: {playlist: any[]}) => dispatch({type: 'get board songs', boardSongs: data, idx: type})
+            }
+        )
     };
 
     useEffect(() => {
-        getSongs(1)
+        getSongs(idx)
     }, []);
 
     return (
         <header>
-            <div className="header">
-                <div className="header-logo">
-                    <img src={require('@img/header_logo_3x.png')} />
-                </div>
-                <div className="header-content">
-                    <div className="header-content__description--middle">
-                        {title}
+            <div className={headerClass}>
+                <div className={toggled ? "header__element--toggled" : (!init && " header__element--toggled--back" || "")}>
+                    <div className="header-logo">
+                        <img src={require('@img/header_logo_3x.png')} />
                     </div>
-                    <div className="header-content_songs--small">
-                        {standardSongs.map((v: ISongBlockProps) => {
-                            return <SongBlock key={v.type + v.name + v.author} data={v} />
-                        })}
+                    <div className="header-content">
+                        <div className="header-content__description--middle">
+                            {title}
+                        </div>
+                        <div className="header-content_songs--small">
+                            {standardSongs.map((v: ISongBlockProps) => {
+                                return <SongBlock key={v.type + v.name + v.author} data={v} />
+                            })}
+                        </div>
                     </div>
+                    <button className="header-button_download--white">下载APP</button>
                 </div>
-                <button className="header-button_download--white">下载APP</button>
+                {toggled && (
+                    <div className="header-content--toggled">
+                        <div className="header-logo--toggled">
+                            <img src={require('@img/header_logo_3x.png')} />
+                        </div>
+                        <div className="header-button_download--white--toggled">
+                            下载APP
+                        </div>
+                    </div>
+                )}
             </div>
+            {toggled && <div className="header-stuff" />}
         </header>
     )
 }
+);
+
+export default Header

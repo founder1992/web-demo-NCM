@@ -16,6 +16,13 @@ export default function reducer(state: IState = INITIAL_STATE, action: Action) {
                 newLists: action.newLists,
             };
         }
+        case 'get board songs': {
+            return {
+                ...state,
+                lastUpdated_boardSongs: {...state.lastUpdated_boardSongs, [action.idx]: Date.now()},
+                boardSongs: {...state.boardSongs, [action.idx]: action.boardSongs},
+            };
+        }
         default:
             return state;
     }
