@@ -1,5 +1,5 @@
 # web-demo-NCM
 react demo from netease cloud music
 
-*npm install
-*npm run dev
+* npm install
+* npm run dev
