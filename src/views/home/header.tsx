@@ -9,9 +9,9 @@ import config from "@/config";
     description:  首页引导下载头部
  */
 
-const Header = React.memo(function (props: {toggled: boolean; init: boolean}) {
+const Header = React.memo(function (props: {toggled: boolean; init: boolean, rh: any}) {
     const idx = 3;
-    const { toggled, init } = props;
+    const { toggled, init, rh } = props;
     const headerClass = "header" + (toggled ? " header--toggled" : (!init && " header--toggled--back" || ""));
 
     const { doRequest } = useStoreRequest();
@@ -34,7 +34,8 @@ const Header = React.memo(function (props: {toggled: boolean; init: boolean}) {
     const standardSongs = songs.map((v: any): ISongBlockProps => {return {
         type: SongBlockType.S, name: v.name,
         picUrl: v.al.picUrl,
-        author: v.ar[0].name
+        author: v.ar[0].name,
+        id: v.id
     }});
 
     const getSongs = (type: number): void => {
@@ -55,6 +56,10 @@ const Header = React.memo(function (props: {toggled: boolean; init: boolean}) {
         getSongs(idx)
     }, []);
 
+    const handleClick = (id: string | undefined) => {
+        rh.push(`/song?id=${id}`)
+    };
+
     return (
         <header>
             <div className={headerClass}>
@@ -68,7 +73,11 @@ const Header = React.memo(function (props: {toggled: boolean; init: boolean}) {
                         </div>
                         <div className="header-content_songs--small">
                             {standardSongs.map((v: ISongBlockProps) => {
-                                return <SongBlock key={v.type + v.name + v.author} data={v} />
+                                return (
+                                    <div key={v.type + v.name + v.author} onClick={() => handleClick(v.id)}>
+                                        <SongBlock key={v.type + v.name + v.author} data={v} />
+                                    </div>
+                                )
                             })}
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { HashRouter as Router, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import loadable from '@loadable/component'
 
 const HomeComponent = loadable(() => import(/* webpackChunkName: "home" */ /* webpackPrefetch: true */ '@views/home'));

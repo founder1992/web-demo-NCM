@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '@views/home/header'
 import Body from '@views/home/body'
 
-const Home = function () {
+const Home = function (props: any) {
     const [toggled, setToggled] = useState(false);
     const [init, setInit] = useState(true);
     const bodyRef: any = React.createRef();
@@ -42,7 +42,7 @@ const Home = function () {
 
     return (
         <div ref={bodyRef}>
-            <Header toggled={toggled} init={init} />
+            <Header toggled={toggled} init={init} rh={props.history} />
             <Body toggled={toggled} />
         </div>
     );

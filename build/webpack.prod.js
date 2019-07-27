@@ -16,6 +16,11 @@ const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 const { bundleAnalyzerReport } = require('./config');
 
+// service worker
+const OfflinePlugin = require('offline-plugin');
+// manifest
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+
 const prodConfig = {
   mode: 'production',
   plugins: [
@@ -48,6 +53,34 @@ const prodConfig = {
       filepath: resolve('../dll/**/*.js'),
       includeSourcemap: false
     }),
+    new OfflinePlugin({
+      externals: ['/'],
+      appShell:  ' / '
+    }),
+    new WebpackPwaManifest({
+      name: 'necm demo',
+      short_name: 'necm',
+      description: 'Progressive Web App for necm',
+      background_color: '#ffffff',
+      start_url: ".",
+      crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
+      icons: [
+        {
+          src: resolve('../src/assets/img/main_logo.png'),
+          sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+        },
+        {
+          src: resolve('../src/assets/img/main_logo.png'),
+          size: '1024x1024' // you can also use the specifications pattern
+        }
+      ],
+      ios: {
+        'apple-mobile-web-app-title': 'necm',
+        'apple-mobile-web-app-status-bar-style': '#000',
+        'apple-mobile-web-app-capable': 'yes',
+        'apple-touch-icon': resolve('../src/assets/img/main_logo.png'),
+      }
+    })
   ],
   optimization: { // 性能配置
     runtimeChunk: true,

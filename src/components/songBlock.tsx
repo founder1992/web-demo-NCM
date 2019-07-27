@@ -15,7 +15,8 @@ export interface ISongBlockProps {
     picUrl: string,
     author?: string,
     description?: string,
-    playCount?: number
+    playCount?: number,
+    id?: string
 }
 
 export default function SongBlock(props: { data: ISongBlockProps, key: string, index?: number }) {

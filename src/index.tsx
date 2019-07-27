@@ -3,6 +3,9 @@ import ReactDom from 'react-dom';
 import App from './App'
 import {StoreContext, makeStore} from '@store';
 import '@styles/index.scss'
+// service worker
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+OfflinePluginRuntime.install();
 
 const store = makeStore();
 

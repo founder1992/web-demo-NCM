@@ -2,12 +2,20 @@ import {useCallback, useEffect, useState} from 'react';
 import axios from 'axios'
 axios.defaults.baseURL = process.env.BASEURL;
 
-const useStateRequest = () => {
-    interface IFilter {
-        url?: string;
-        method?: string;
-    }
+export interface IFilter {
+    url?: string;
+    method?: string;
+    params?: any
+}
 
+export interface IUseStateReturn {
+    data: any,
+    isLoading: boolean,
+    isError: boolean,
+    doFetch: (filter: IFilter) => void
+}
+
+const useStateRequest: () => IUseStateReturn = () => {
     const [data, setData] = useState({});
     const [filter, setFilter] : [IFilter, any] = useState({});
     const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +43,7 @@ const useStateRequest = () => {
         }
     }, [filter]);
 
-    const doFetch = (filter: object) => {
+    const doFetch = (filter: IFilter) => {
         setFilter(filter);
     };
 
