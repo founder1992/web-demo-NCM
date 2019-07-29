@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import useStateRequest, {IUseStateReturn} from '@hooks/useStateRequest'
 
+interface ILyricProps {
+    id: string,
+    start: boolean,
+    songName: string,
+    songFrom: string,
+    singer: string
+}
 
-const Lyric = function (props: {id: string, start: boolean, songName: string, songFrom: string, singer: string}) {
+const Lyric: React.SFC<ILyricProps> = function (props) {
     const { id, start, songName, songFrom, singer } = props;
     const name = songName + (songFrom ? `（${songFrom}）` : "");
     const { data, isLoading, isError, doFetch } : IUseStateReturn= useStateRequest();
@@ -42,6 +49,9 @@ const Lyric = function (props: {id: string, start: boolean, songName: string, so
         if (lyricData.length !== 0) {
             for (let i = 0; i < lyricData.length; i++) {
                 if (lyricData[i][0] > duration) {
+                    if (i === 0) {
+                        break
+                    }
                     if (i === 1) {
                         mylist.push({current: true, data: lyricData[i - 1][1]});
                         mylist.push({data: lyricData[i][1]});

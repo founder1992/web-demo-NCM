@@ -100,5 +100,9 @@ module.exports={
       '@hooks': resolve('../src/hooks'),
       '@styles': resolve('../src/styles')
     }
+  },
+  externals: {
+    'react': 'React',
+    'react-dom': 'ReactDOM'
   }
 }

@@ -127,7 +127,6 @@
 }
 
 .song__cover-container {
-  height: 740px;
   padding-bottom: 12px;
   position: relative;
 }
@@ -136,20 +135,20 @@
   color: hsla(0,0%,100%,.6);
   height: 30px;
   line-height: 30px;
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  bottom: 18px;
+  bottom: 78px;
   z-index: 1;
 }
 
 .song--bottom--up-icon {
-  bottom: -24px;
-  position: absolute;
+  bottom: 36px;
+  position: fixed;
   left: 0;
   right: 0;
   height: 36px;
@@ -201,7 +200,7 @@
 .song--bottom--download-btn--two {
   display: flex;
   padding: 0 10px;
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 10px;

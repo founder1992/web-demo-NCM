@@ -10,7 +10,13 @@ const devConfig={
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'public/index.html',
-      inject: true
+      inject: true,
+      cdn: {
+        js: [
+          'https://cdn.bootcss.com/react/16.9.0-alpha.0/umd/react.development.js',
+          'https://cdn.bootcss.com/react-dom/16.8.6/umd/react-dom.development.js'
+        ]
+      }
     }),
     new webpack.HotModuleReplacementPlugin()
   ],
@@ -24,16 +30,16 @@ const devConfig={
     },
     inline: true,
     hot: true,
-    // proxy: {
-    //   '/api/v1': {
-    //     target: '',
-    //     ws: true,
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       '^/api/v1': '/api/v1'
-    //     }
-    //   }
-    // }
+    proxy: {
+      '/': {
+        target: 'https://api.necm.chenfangzheng.cn',
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/': '/'
+        }
+      }
+    }
   },
 };
 

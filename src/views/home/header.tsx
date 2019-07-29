@@ -9,7 +9,13 @@ import config from "@/config";
     description:  首页引导下载头部
  */
 
-const Header = React.memo(function (props: {toggled: boolean; init: boolean, rh: any}) {
+interface IHeader {
+    toggled: boolean;
+    init: boolean,
+    rh: any
+}
+
+const Header: React.SFC<IHeader> = React.memo(function (props) {
     const idx = 3;
     const { toggled, init, rh } = props;
     const headerClass = "header" + (toggled ? " header--toggled" : (!init && " header--toggled--back" || ""));
@@ -56,7 +62,7 @@ const Header = React.memo(function (props: {toggled: boolean; init: boolean, rh:
         getSongs(idx)
     }, []);
 
-    const handleClick = (id: string | undefined) => {
+    const handleClick = (id: string | undefined): void => {
         rh.push(`/song?id=${id}`)
     };
 

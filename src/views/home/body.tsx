@@ -13,7 +13,11 @@ import config from '@/config'
     description:  首页内容部分
  */
 
-export default function Body(props: { toggled: boolean }) {
+interface IBodyProps {
+    toggled: boolean
+}
+
+const Body: React.SFC<IBodyProps> = (props) => {
     const [titles, setTitles] = useState(["推荐音乐", "热歌榜", "搜索"]);
     const [current, setCurrent] = useState("推荐音乐");
     const { toggled } = props;
@@ -81,4 +85,6 @@ export default function Body(props: { toggled: boolean }) {
             {current === "搜索" && <Search />}
         </section>
     )
-}
+};
+
+export default Body

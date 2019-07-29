@@ -3,10 +3,14 @@ import React, { useState, useEffect } from 'react';
 import Header from '@views/home/header'
 import Body from '@views/home/body'
 
-const Home = function (props: any) {
+interface IHomeProps {
+    history: any
+}
+
+const Home: React.SFC<IHomeProps> = function (props) {
     const [toggled, setToggled] = useState(false);
     const [init, setInit] = useState(true);
-    const bodyRef: any = React.createRef();
+    const bodyRef: React.RefObject<any> = React.createRef();
 
     let ticking = false; // rAF 触发锁
     let preTop = 0;

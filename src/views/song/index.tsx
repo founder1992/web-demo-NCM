@@ -3,26 +3,28 @@ import useStateRequest, {IUseStateReturn} from '@hooks/useStateRequest'
 import Lyric from '@views/song/lyric'
 
 
-const Song = function () {
+const Song = function (): JSX.Element {
     const { data, isLoading, isError, doFetch } : IUseStateReturn= useStateRequest();
     const song = data && data.songs && data.songs[0] || {};
     const backImg = song.al && song.al.picUrl;
-    const style = backImg && {backgroundImage: `url(${backImg})`};
-    const songName = song.name;
-    const songFrom = song.alia && song.alia[0];
-    const singer = song.ar && song.ar[0] && song.ar[0].name;
+    const style: {backgroundImage: string} | undefined = backImg && {backgroundImage: `url(${backImg})`};
+    const songName: string = song.name;
+    const songFrom: string = song.alia && song.alia[0];
+    const singer: string = song.ar && song.ar[0] && song.ar[0].name;
 
     const [rotateStart, setRotateStart] = useState(false);
     const [continueRotate, setContinueRotate] = useState(0);
-    const songAudio: any = React.createRef();
+    const songAudio: React.RefObject<any> = React.createRef();
 
+    // 长宽比过低，不显示底部按钮
+    let whscale = window.innerWidth/window.innerHeight < 0.7;
     /*
         rotate function start
      */
-    const rotateRef: any = React.createRef();
-    let rotate = continueRotate;
+    const rotateRef: React.RefObject<any> = React.createRef();
+    let rotate: number = continueRotate;
 
-    const rotateFn = () => {
+    const rotateFn = (): void => {
         if (rotateStart) {
             if (rotateRef.current && rotateRef.current.style) {
                 rotateRef.current.style.transform = `rotate(${rotate}deg)`
@@ -39,7 +41,7 @@ const Song = function () {
     /*
         get song start
      */
-    let id = "";
+    let id: string = "";
     try {
         id = location.search.split("id=")[1].split("&")[0];
     }catch (e) {}
@@ -59,7 +61,7 @@ const Song = function () {
         get song end
     */
 
-    const btnClick = () => {
+    const btnClick = (): void => {
         setContinueRotate(rotate);
         setRotateStart(!rotateStart);
         if (songAudio.current.paused) {
@@ -91,17 +93,23 @@ const Song = function () {
                 <Lyric id={id} start={rotateStart} songName={songName} songFrom={songFrom} singer={singer}/>
                 <audio ref={songAudio} src={`https://music.163.com/song/media/outer/url?id=${id}.mp3`}>
                 </audio>
-                <div className="song--bottom--download-btn">
-                    查看完整歌词 >
-                </div>
-                <div className="song--bottom--up-icon">
-                    <i></i>
-                </div>
+                {whscale && (
+                    <React.Fragment>
+                        <div className="song--bottom--download-btn">
+                            查看完整歌词 >
+                        </div>
+                        <div className="song--bottom--up-icon">
+                            <i></i>
+                        </div>
+                    </React.Fragment>
+                )}
             </div>
-            <div className="song--bottom--download-btn--two">
-                <span>打 开</span>
-                <span>下 载</span>
-            </div>
+            {whscale && (
+                <div className="song--bottom--download-btn--two">
+                    <span>打 开</span>
+                    <span>下 载</span>
+                </div>
+            )}
         </React.Fragment>
     );
 };
