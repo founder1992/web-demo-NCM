@@ -19,11 +19,17 @@ export interface IHotMusicSongLists {
 export interface IHotMusicNewSongs {
     name: string,
     song: {artists: {name: string}[], album: {name: string}, exclusive: boolean},
-    id: number
+    id: string
 }
 
-export default function HotMusic(props: {songList: IHotMusicSongLists[], newSongs: IHotMusicNewSongs[]}) {
-    const { songList, newSongs } = props;
+interface IHotMusicProps {
+    songList: IHotMusicSongLists[],
+    newSongs: IHotMusicNewSongs[],
+    rh: any
+}
+
+export default function HotMusic(props: IHotMusicProps) {
+    const { songList, newSongs, rh } = props;
     const standardLists = songList.map((v: any): ISongBlockProps => {return {
         type: SongBlockType.C, name: v.name,
         picUrl: v.coverImgUrl,
@@ -32,12 +38,17 @@ export default function HotMusic(props: {songList: IHotMusicSongLists[], newSong
 
     const standardSongs = newSongs.map((v: IHotMusicNewSongs): ISongBarProps => {
         return {
+            id: v.id,
             name: v.name,
             authors: v.song.artists.map((v) => v.name),
             album: v.song.album.name,
             exclusive: v.song.exclusive
         }
     });
+
+    const handleClick = (id: string | undefined): void => {
+        rh.push(`/song?id=${id}`)
+    };
 
     return (
         <div className="body-content--hot-lists">
@@ -50,7 +61,11 @@ export default function HotMusic(props: {songList: IHotMusicSongLists[], newSong
             <Label title="最新音乐" />
             <React.Fragment>
                 {standardSongs.map((v: ISongBarProps, index: number) => {
-                    return <SongBar key={v.album + v.name} data={v} index={index} />
+                    return (
+                        <div key={v.album + v.name + "div"} onClick={() => {handleClick(v.id)}}>
+                            <SongBar key={v.album + v.name} data={v} index={index} />
+                        </div>
+                    )
                 })}
             </React.Fragment>
             <footer className="footer--hot_songs">

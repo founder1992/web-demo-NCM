@@ -10,17 +10,18 @@ import config from "@/config";
  */
 
 interface IHeader {
-    toggled: boolean;
-    init: boolean,
+    toggled?: boolean;
+    init?: boolean,
     rh: any
 }
 
 const Header: React.SFC<IHeader> = React.memo(function (props) {
     const idx = 3;
-    const { toggled, init, rh } = props;
-    const headerClass = "header" + (toggled ? " header--toggled" : (!init && " header--toggled--back" || ""));
+    const { rh } = props;
+    const headerClass = "header";
 
     const { doRequest } = useStoreRequest();
+    const [skShow, setSkShow] = useState(true);
     const dispatch = useDispatch();
 
     const { lastUpdated_boardSongs, boardSongs } = useMappedState(
@@ -36,6 +37,7 @@ const Header: React.SFC<IHeader> = React.memo(function (props) {
     const board  = boardSongs[idx];
     const title = board && board.playlist && board.playlist.name;
     const songs = board && board.playlist.tracks && board.playlist.tracks.slice(0, 4) || [];
+    const ifSongs = songs.length !== 0;
 
     const standardSongs = songs.map((v: any): ISongBlockProps => {return {
         type: SongBlockType.S, name: v.name,
@@ -66,12 +68,17 @@ const Header: React.SFC<IHeader> = React.memo(function (props) {
         rh.push(`/song?id=${id}`)
     };
 
+    // 骨架屏消失
+    if (ifSongs && skShow) {
+        document.getElementsByClassName("header")[0].classList.add("disappear")
+    }
+
     return (
         <header>
-            <div className={headerClass}>
-                <div className={toggled ? "header__element--toggled" : (!init && " header__element--toggled--back" || "")}>
+            <div className="header">
+                <div className="header__element--toggled--back">
                     <div className="header-logo">
-                        <img src={require('@img/header_logo_3x.png')} />
+                        {ifSongs && <img src={require('@img/header_logo_3x.png')} />}
                     </div>
                     <div className="header-content">
                         <div className="header-content__description--middle">
@@ -87,20 +94,19 @@ const Header: React.SFC<IHeader> = React.memo(function (props) {
                             })}
                         </div>
                     </div>
-                    <button className="header-button_download--white">下载APP</button>
+                    <button className="header-button_download--white">{ifSongs && "下载APP"}</button>
                 </div>
-                {toggled && (
-                    <div className="header-content--toggled">
-                        <div className="header-logo--toggled">
-                            <img src={require('@img/header_logo_3x.png')} />
-                        </div>
-                        <div className="header-button_download--white--toggled">
-                            下载APP
-                        </div>
-                    </div>
-                )}
+                {/*{toggled && (*/}
+                {/*    <div className="header-content--toggled">*/}
+                {/*        <div className="header-logo--toggled">*/}
+                {/*            <img src={require('@img/header_logo_3x.png')} />*/}
+                {/*        </div>*/}
+                {/*        <div className="header-button_download--white--toggled">*/}
+                {/*            下载APP*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*)}*/}
             </div>
-            {toggled && <div className="header-stuff" />}
         </header>
     )
 }

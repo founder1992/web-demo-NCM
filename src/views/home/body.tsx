@@ -14,13 +14,14 @@ import config from '@/config'
  */
 
 interface IBodyProps {
-    toggled: boolean
+    toggled: boolean,
+    rh: any
 }
 
 const Body: React.SFC<IBodyProps> = (props) => {
     const [titles, setTitles] = useState(["推荐音乐", "热歌榜", "搜索"]);
     const [current, setCurrent] = useState("推荐音乐");
-    const { toggled } = props;
+    const { toggled, rh } = props;
     const { doRequest } = useStoreRequest();
     const doRequest_newSongs = useStoreRequest().doRequest;
     const dispatch = useDispatch();
@@ -39,7 +40,11 @@ const Body: React.SFC<IBodyProps> = (props) => {
 
     const click = (v: string): void => {
       setCurrent(v);
-      window.scrollTo(0,2)
+      let pHeight = document.getElementsByClassName("header")[0].clientHeight;
+
+      if (window.pageYOffset > pHeight) {
+          window.scrollTo(0, pHeight)
+      }
     };
 
     const getHotSongLists = (): void => {
@@ -77,11 +82,21 @@ const Body: React.SFC<IBodyProps> = (props) => {
         getContent(current);
     }, [current]);
 
+
+    const ifLoaded = hotLists.length > 0 && newLists.length > 0;
+    if (ifLoaded) {
+        document.getElementsByClassName("sk-boddy")[0].classList.add("disappear")
+    }
+
     return (
         <section>
-            <SwitchBar key="switch-bar" titles={titles} current={current} click={click} toggled={toggled} />
-            {current === "推荐音乐" && <HotMusic songList={hotLists} newSongs={newLists}/>}
-            {current === "热歌榜" && <Board />}
+            {ifLoaded && (
+                <SwitchBar key="switch-bar" titles={titles} current={current} click={click} toggled={toggled} />
+            )}
+            {current === "推荐音乐" && ifLoaded && (
+                <HotMusic songList={hotLists} newSongs={newLists} rh={rh} />
+            )}
+            {current === "热歌榜" && <Board rh={rh} />}
             {current === "搜索" && <Search />}
         </section>
     )

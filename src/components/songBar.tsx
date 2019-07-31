@@ -10,6 +10,7 @@ export enum SongBarType {
 }
 
 export interface ISongBarProps {
+    id?: string,
     name: string,
     authors: string[],
     album: string,

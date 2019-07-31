@@ -9,8 +9,9 @@ import SongBar, { ISongBarProps, SongBarType } from "@components/songBar";
     description:  首页热歌榜
  */
 
-export default function Board() {
+export default function Board(props: {rh: any}) {
     const idx = 1;
+    const { rh } = props;
     const { doRequest } = useStoreRequest();
     const dispatch = useDispatch();
 
@@ -29,6 +30,7 @@ export default function Board() {
     const songs = board && board.playlist.tracks && board.playlist.tracks.slice(0, 20) || [];
 
     const standardSongs = songs.map((v: any): ISongBarProps => {return {
+        id: v.id,
         name: v.name,
         authors: v.ar.map((v: any) => v.name),
         album: v.al.name,
@@ -53,17 +55,25 @@ export default function Board() {
         getSongs(idx)
     }, []);
 
+    const handleClick = (id: string | undefined): void => {
+        rh.push(`/song?id=${id}`)
+    };
+
     return (
         <div className="body-content__board">
             <div className="body-content__board--top">
                 <div className="body-content__board--top__title">
                     <div />
-                    <div>更新日期： 07月11日</div>
+                    <div>更新日期： 07月31日</div>
                 </div>
             </div>
             <React.Fragment>
                 {standardSongs.map((v: ISongBarProps, index: number) => {
-                    return <SongBar key={v.album + v.name} data={v} index={index} type={SongBarType.I} />
+                    return (
+                      <div key={v.album + v.name + "div"} onClick={() => {handleClick(v.id)}}>
+                          <SongBar key={v.album + v.name} data={v} index={index} type={SongBarType.I} />
+                      </div>
+                    )
                 })}
             </React.Fragment>
             <div className="body-content__board--footer">

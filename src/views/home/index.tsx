@@ -46,8 +46,8 @@ const Home: React.SFC<IHomeProps> = function (props) {
 
     return (
         <div ref={bodyRef}>
-            <Header toggled={toggled} init={init} rh={props.history} />
-            <Body toggled={toggled} />
+            <Header rh={props.history} />
+            <Body toggled={false} rh={props.history} />
         </div>
     );
 };

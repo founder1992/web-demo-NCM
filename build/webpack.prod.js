@@ -34,7 +34,10 @@ const prodConfig = {
         removeAttributeQuotes: true // 去掉一些属性的引号，例如id="moo" => id=moo
       },
       cdn: {
-        js: []
+        js: [
+          'https://cdn.bootcss.com/react/16.8.6/umd/react.production.min.js',
+          'https://cdn.bootcss.com/react-dom/16.8.6/umd/react-dom.production.min.js'
+        ]
       }
     }),
     new MiniCssExtractPlugin({

@@ -101,6 +101,30 @@ span, li, ul, ol, th, td {
   }
 }
 
+.disappear {
+  opacity: 0;
+  //display: none;
+}
+
+.removed {
+  visibility: hidden;
+}
+
+#sk {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none
+}
+
+.sk-boddy {
+  transition: all 0.5s;
+  background: white;
+}
+
+.sk-headder {
+  transition: all 0.5s;
+}
+
 @import "reset";
 @import "home";
 @import "component";

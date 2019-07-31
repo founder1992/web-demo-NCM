@@ -3,6 +3,10 @@ const merge = require('webpack-merge');
 const baseConfig = require('./webpack.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const { SkeletonPlugin } = require('page-skeleton-webpack-plugin');
+
+const { resolve, resolveAssetsRootDir } = require('./utils');
+
 const devConfig={
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
@@ -13,12 +17,19 @@ const devConfig={
       inject: true,
       cdn: {
         js: [
-          'https://cdn.bootcss.com/react/16.9.0-alpha.0/umd/react.development.js',
-          'https://cdn.bootcss.com/react-dom/16.8.6/umd/react-dom.development.js'
+          'https://cdn.bootcss.com/react/16.8.6/umd/react.production.min.js',
+          'https://cdn.bootcss.com/react-dom/16.8.6/umd/react-dom.production.min.js'
         ]
       }
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    // new SkeletonPlugin({
+    //   pathname: resolve('../shell'), // the path to store shell file
+    //   staticDir: resolve('../dist'), // the same as the `output.path`
+    //   routes: ['/'], // Which routes you want to generate skeleton screen
+    //   port: '5001',
+    //   loading: 'chiaroscuro'
+    // })
   ],
   devServer: {
     host: 'localhost',

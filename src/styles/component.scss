@@ -85,27 +85,30 @@ $block__songs--common-width: 122.875px;
   line-height: 40px;
   font-size: 15px;
   z-index: 6;
+  position: sticky;
+  top: 0;
+  background: #ffffff;
 }
 
-.component-bar__switch-container--toggled {
-  position: fixed;
-  background-color: white;
-  top: 343px;
-  animation: component-bar__switch-container-animation--fadeIn 200ms linear;
-  animation-fill-mode: forwards;
-}
+//.component-bar__switch-container--toggled {
+//  position: fixed;
+//  background-color: white;
+//  top: 343px;
+//  animation: component-bar__switch-container-animation--fadeIn 200ms linear;
+//  animation-fill-mode: forwards;
+//}
 
-@keyframes component-bar__switch-container-animation--fadeIn {
-  0% {
-    top: 343px;
-  }
-  50% {
-    top: 172px;
-  }
-  100% {
-    top: 84px;
-  }
-}
+//@keyframes component-bar__switch-container-animation--fadeIn {
+//  0% {
+//    top: 343px;
+//  }
+//  50% {
+//    top: 172px;
+//  }
+//  100% {
+//    top: 84px;
+//  }
+//}
 
 .component-bar__switch-item {
   width: 125px;
