@@ -39,12 +39,23 @@ const Body: React.SFC<IBodyProps> = (props) => {
     );
 
     const click = (v: string): void => {
-      setCurrent(v);
-      let pHeight = document.getElementsByClassName("header")[0].clientHeight;
+        setCurrent(v);
+        let pHeight = document.getElementsByClassName("header")[0].clientHeight;
+        let lineHight = document.getElementsByClassName("component-bar__switch-container")[0].clientHeight;
 
-      if (window.pageYOffset > pHeight) {
+        let skBoddy2: any = document.getElementsByClassName("sk-boddy-2")[0];
+        if (v === titles[1]) {
+            let skBoddy: any = document.getElementsByClassName("sk-boddy")[0];
+            skBoddy.style.display = "none";
+            skBoddy2.style.display = "block";
+            skBoddy2.style.marginTop = (lineHight - (window.pageYOffset > pHeight ? pHeight: window.pageYOffset)) + "px"
+        } else {
+            skBoddy2.style.display = "none";
+        }
+
+        if (window.pageYOffset > pHeight) {
           window.scrollTo(0, pHeight)
-      }
+        }
     };
 
     const getHotSongLists = (): void => {
@@ -81,6 +92,8 @@ const Body: React.SFC<IBodyProps> = (props) => {
     useEffect((): void => {
         getContent(current);
     }, [current]);
+
+
 
 
     const ifLoaded = hotLists.length > 0 && newLists.length > 0;

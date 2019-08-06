@@ -59,26 +59,38 @@ export default function Board(props: {rh: any}) {
         rh.push(`/song?id=${id}`)
     };
 
+    const loaded = standardSongs.length > 0;
+
+    if (loaded) {
+        document.getElementsByClassName("sk-boddy-2")[0].classList.add("disappear")
+    }
+
     return (
         <div className="body-content__board">
-            <div className="body-content__board--top">
-                <div className="body-content__board--top__title">
-                    <div />
-                    <div>更新日期： 07月31日</div>
-                </div>
-            </div>
-            <React.Fragment>
-                {standardSongs.map((v: ISongBarProps, index: number) => {
-                    return (
-                      <div key={v.album + v.name + "div"} onClick={() => {handleClick(v.id)}}>
-                          <SongBar key={v.album + v.name} data={v} index={index} type={SongBarType.I} />
-                      </div>
-                    )
-                })}
-            </React.Fragment>
-            <div className="body-content__board--footer">
-                查看完整榜单 >
-            </div>
+            {loaded && (
+                <React.Fragment>
+                    <div className="body-content__board--top">
+                        <div className="body-content__board--top__title">
+                            <div/>
+                            <div>更新日期： 07月31日</div>
+                        </div>
+                    </div>
+                    <React.Fragment>
+                        {standardSongs.map((v: ISongBarProps, index: number) => {
+                            return (
+                                <div key={v.album + v.name + "div"} onClick={() => {
+                                    handleClick(v.id)
+                                }}>
+                                    <SongBar key={v.album + v.name} data={v} index={index} type={SongBarType.I}/>
+                                </div>
+                            )
+                        })}
+                    </React.Fragment>
+                    <div className="body-content__board--footer">
+                        查看完整榜单 >
+                    </div>
+                </React.Fragment>
+            )}
         </div>
     )
 }
